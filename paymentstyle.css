@@ -1,0 +1,466 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgb(255, 255, 255);
+    padding: 0.5rem 0;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom navbar-toggler icon color */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(24,71,208, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* Logo styles */
+.navbar-brand img {
+    width: 140px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+/* Nav items */
+.navbar-nav {
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #1847d0 !important; /* Important to override Bootstrap */
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    font-size: 0.9em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #0e2c87 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #0e2c87;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Auth buttons */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-buttons .btn-primary {
+    padding: 8px 30px;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    background-image: linear-gradient(45deg, #1847d0, #0f0790);
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    border: none;
+}
+
+.auth-buttons .btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+.auth-buttons .nav-link {
+    font-size: 0.85rem;
+    color: #1847d0;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .auth-buttons .btn-primary,
+    .auth-buttons .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .navbar-brand {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+
+
+.text-content {
+    position: relative;
+    z-index: 1;
+    animation: moveup 0.5s linear forwards;
+}
+.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    color: #fff;
+    background-image: linear-gradient(45deg, rgba(24, 71, 208, 1), rgba(15, 7, 144, 1));
+    font-size: 14px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    transition: 0.5s;
+}
+
+.btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+.text-content .btn-primary {
+    padding: 15px 80px;
+    font-size: 15px;
+    animation-delay: 1s;
+}
+/* Payment Container Styles */
+.payment-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.payment-container h2 {
+    color: rgba(24, 71, 208, 1);
+    font-weight: 600;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.payment-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(45deg, rgba(24, 71, 208, 1), rgba(15, 7, 144, 1));
+    border-radius: 3px;
+}
+
+/* Booking Details Section */
+.booking-details {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #3498db;
+}
+
+.booking-details h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.booking-details p {
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.booking-details strong {
+    color: #2c3e50;
+    font-weight: 500;
+    min-width: 150px;
+    display: inline-block;
+}
+
+/* Voucher Section */
+.voucher-section {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px dashed #dee2e6;
+}
+
+.voucher-section h5 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.voucher-applied {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e8f5e9;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.discount-info {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.btn-outline-danger {
+    border-color: #e74c3c;
+    color: #e74c3c;
+    transition: all 0.3s;
+}
+
+.btn-outline-danger:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Payment Options */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.payment-option {
+    padding: 1.25rem;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+.payment-option.selected {
+    border-color: #3498db;
+    background-color: #e3f2fd;
+}
+
+.payment-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.payment-option:hover:not(.selected) {
+    border-color: #adb5bd;
+}
+
+/* Payment Form Styles */
+.form-control {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+.mb-3 {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Payment Amount Display */
+.payment-amount {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2ecc71;
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+}
+
+/* Payment Buttons */
+.btn-pay {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg,#1847d0, #0f0790);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-pay:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg,#0f0790, #1847d0);
+}
+
+/* Error Messages */
+.error {
+    color: #e74c3c;
+    background-color: #fdecea;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .payment-container {
+        padding: 1.5rem;
+    }
+    
+    .payment-options {
+        flex-direction: column;
+    }
+    
+    .voucher-applied {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .btn-outline-danger {
+        width: 100%;
+    }
+}
+
+ .foot-container {
+    background: linear-gradient(90deg, rgba(117, 213, 252, 1) 5%, rgba(24, 71, 208, 1) 41%, rgba(15, 7, 144, 1) 100%);
+    color: #fff;
+    padding: 2rem 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.foot-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.foot-icons a {
+    color: #fff;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.foot-icons a:hover {
+    color: #64B5F6;
+    transform: scale(1.2);
+}
+
+.foot-policy .policy-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.foot-policy a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.foot-policy a:hover {
+    color: #64B5F6;
+}
+
+.foot_text {
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 0.rem;
+    margin-top: 1.5rem;
+    color: #e0e0e0;
+    margin-bottom: -1rem;
+}
+.foot-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 1.5rem 0;
+}

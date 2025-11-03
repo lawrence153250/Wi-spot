@@ -1,0 +1,487 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgb(255, 255, 255);
+    padding: 0.5rem 0;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom navbar-toggler icon color */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(24,71,208, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* Logo styles */
+.navbar-brand img {
+    width: 140px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+/* Nav items */
+.navbar-nav {
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #1847d0 !important; /* Important to override Bootstrap */
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    font-size: 0.9em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #0e2c87 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #0e2c87;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Auth buttons */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-buttons .btn-primary {
+    padding: 8px 30px;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    background-image: linear-gradient(45deg, #1847d0, #0f0790);
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    border: none;
+}
+
+.auth-buttons .btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+.auth-buttons .nav-link {
+    font-size: 0.85rem;
+    color: #1847d0;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .auth-buttons .btn-primary,
+    .auth-buttons .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .navbar-brand {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+
+
+.text-content {
+    position: relative;
+    z-index: 1;
+    animation: moveup 0.5s linear forwards;
+}
+.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    color: #fff;
+    background-image: linear-gradient(45deg, rgba(24, 71, 208, 1), rgba(15, 7, 144, 1));
+    font-size: 14px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    transition: 0.5s;
+}
+
+.btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+.text-content .btn-primary {
+    padding: 15px 80px;
+    font-size: 15px;
+    animation-delay: 1s;
+}
+
+/* Transactions Page Styles */
+.container.mt-6 {
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 70px;
+}
+
+.container.mt-6 h2 {
+    color: #1847D0;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-top: 75px;
+    margin-bottom: 35px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+}
+
+.table td, .table th {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Status Badges */
+td:nth-child(7), td:nth-child(8) {
+    font-weight: 500;
+}
+
+td:nth-child(7) {
+    color: #2c3e50;
+}
+
+td:nth-child(7):contains("Pending") {
+    color: #e67e22;
+}
+
+td:nth-child(7):contains("Confirmed") {
+    color: #3498db;
+}
+
+td:nth-child(7):contains("Completed") {
+    color: #2ecc71;
+}
+
+td:nth-child(7):contains("Cancelled") {
+    color: #e74c3c;
+}
+
+td:nth-child(8):contains("Paid") {
+    color: #2ecc71;
+}
+
+td:nth-child(8):contains("Pending") {
+    color: #e67e22;
+}
+
+td:nth-child(8):contains("Failed") {
+    color: #e74c3c;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: none;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-sm {
+    padding: 6px 15px;
+    font-size: 0.75rem;
+}
+
+.btn-primary {
+    background-image: linear-gradient(45deg, #1847d0, #0f0790);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-image: linear-gradient(45deg, #0f0790, #1847d0);
+    border-top-right-radius: 30px;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-success {
+    background-image: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-image: linear-gradient(45deg, #27ae60, #2ecc71);
+    border-top-right-radius: 30px;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mt-1 {
+    margin-top: 0.5rem !important;
+}
+
+/* Status Column Buttons */
+td:nth-child(7), td:nth-child(8) {
+    vertical-align: middle;
+}
+
+td:nth-child(7) .btn,
+td:nth-child(8) .btn {
+    display: inline-block;
+    width: auto;
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    td:nth-child(7) .btn,
+    td:nth-child(8) .btn {
+        width: 100%;
+    }
+}
+
+/* Price Formatting */
+td:nth-child(6) {
+    font-weight: 600;
+    color: #27ae60;
+}
+
+/* No Transactions Message */
+.text-center {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Hover Effects */
+.table tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+    
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+    
+    .table tr {
+        margin-bottom: 15px;
+        border: 1px solid #dee2e6;
+    }
+    
+    .table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-top: 1px solid #dee2e6;
+        border-bottom: 0;
+    }
+    
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-right: 15px;
+        font-weight: 600;
+        text-align: left;
+    }
+    
+}
+
+/* Animation Effects */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.table tbody tr {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+ .foot-container {
+    background: linear-gradient(90deg, rgba(117, 213, 252, 1) 5%, rgba(24, 71, 208, 1) 41%, rgba(15, 7, 144, 1) 100%);
+    color: #fff;
+    padding: 2rem 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.foot-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.foot-icons a {
+    color: #fff;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.foot-icons a:hover {
+    color: #64B5F6;
+    transform: scale(1.2);
+}
+
+.foot-policy .policy-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.foot-policy a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.foot-policy a:hover {
+    color: #64B5F6;
+}
+
+.foot_text {
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 0.rem;
+    margin-top: 1.5rem;
+    color: #e0e0e0;
+    margin-bottom: -1rem;
+}
+.foot-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 1.5rem 0;
+}

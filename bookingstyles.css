@@ -1,0 +1,505 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgb(255, 255, 255);
+    padding: 0.5px 0;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .navbar-brand {
+    margin-left: auto; 
+    margin-right: 15rem; 
+  }
+  
+  .navbar-brand img {
+    width: 140px;
+  }
+  
+  .navbar-brand img:hover {
+    transform: scale(1.05);
+  }
+  
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(24,71,208, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
+@media (min-width: 992px) {
+  .navbar-nav {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+  
+  .nav-item {
+    list-style: none;
+  }
+  
+  .nav-link {
+    color: #1847d0;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    font-size: 0.9em;
+  }
+  
+  .nav-link:hover {
+  color: #0e2c87;
+}
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #0e2c87;
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+
+.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    color: #fff;
+    background-image: linear-gradient(45deg, rgba(24, 71, 208, 1), rgba(15, 7, 144, 1));
+    font-size: 14px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    transition: 0.5s;
+}
+
+.btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+/* Booking Page - Professional Design */
+body {
+    color: #162447;
+    line-height: 1.7;
+    padding-top: 30px;
+    background-color: #f8faff;
+    font-weight: 400;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    font-weight: 200;
+    letter-spacing: -0.5px;
+}
+
+h4 {
+    font-size: 20px;
+}
+.booking-header {
+  background-image: url('bookingpg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 10rem 1rem;
+  text-align: center;
+  position: relative;
+  margin: 2rem 0;
+}
+
+.booking-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(28, 57, 187, 0.7); /* Blue overlay for contrast */
+  border-radius: inherit;
+}
+
+.booking-header h1 {
+  position: relative;
+  color: white !important; /* Override gradient text */
+  background: none !important;
+  -webkit-text-fill-color: white;
+  font-size: 3rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.booking-header h1::after {
+  background: white !important; /* White underline */
+}
+
+h3 {
+    font-size: 1.8rem;
+    margin: 3rem 0 1.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(to bottom, #256eff, #1c39bb);
+    border-radius: 3px;
+}
+
+/* Card Styles */
+.user-info-section {
+    background: white;
+    padding: 0.8rem;
+    margin: 1.5rem auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(37, 110, 255, 0.08);
+    max-width: 850px;
+    border: 2px solid rgba(24, 75, 177, 0.187);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-info-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(37, 110, 255, 0.12);
+}
+
+.user-info-section p {
+    margin: 0.7rem 0;
+    font-size: 1.1rem;
+    color: #3a4768;
+}
+
+/* Form Container */
+#bookingForm {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: #1c39bb;
+    font-size: 1.5rem;
+}
+
+.form-group input[type="date"],
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid #e0e8ff;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: #f8faff;
+}
+
+.form-group input[type="date"]:focus,
+.form-group input[type="text"]:focus {
+    border-color: #256eff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(37, 110, 255, 0.15);
+    background-color: white;
+}
+
+/* Package Grid - 2x2 Layout */
+.package-selection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2.5rem 0;
+}
+
+.package-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(37, 110, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    border: 1px solid rgba(37, 110, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.package-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #256eff, #1c39bb);
+}
+
+.package-option:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(37, 110, 255, 0.2);
+}
+
+.package-option input[type="radio"]:checked + .package-img {
+    border-color: #256eff;
+    box-shadow: 0 0 0 3px rgba(37, 110, 255, 0.3);
+}
+
+.package-img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+    border: 3px solid #e0e8ff;
+    border-radius: 10px;
+    padding: 0.8rem;
+    transition: all 0.3s;
+    background-color: #f8faff;
+}
+
+.package-option span {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #162447;
+    font-size: 1.2rem;
+}
+
+.package-option p {
+    margin: 0;
+    color: #1c39bb;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Price Badge */
+.package-option::after {
+    content: attr(data-price);
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    width: 120px;
+    padding: 0.3rem 0;
+    background: linear-gradient(90deg, #256eff, #1c39bb);
+    color: white;
+    text-align: center;
+    transform: rotate(45deg);
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 10px rgba(37, 110, 255, 0.3);
+}
+
+/* Buttons - Enhanced */
+.btn-primary {
+    display: inline-block;
+    padding: 16px 48px;
+    color: white;
+    background: linear-gradient(135deg, #1c39bb 0%, #256eff 100%);
+    font-size: 1rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(28, 57, 187, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(28, 57, 187, 0.4);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Signature Pad */
+.signature-pad {
+    border: 2px dashed #e0e8ff;
+    border-radius: 12px;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f8faff;
+}
+
+#signature-canvas {
+    width: auto;
+    height: auto;
+    background-color: white;
+    border-radius: 8px;
+}
+
+/* Modal Enhancements */
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 15px 40px rgba(22, 36, 71, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #1c39bb 0%, #256eff 100%);
+    color: white;
+    border-bottom: none;
+    padding: 1.5rem 2rem;
+}
+
+.modal-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #e0e8ff;
+    padding: 1.5rem 2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .package-selection {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .package-selection {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .user-info-section,
+    #bookingForm {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2rem;
+        padding-bottom: 1rem;
+    }
+    
+    h1::after {
+        width: 80px;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        padding: 14px 24px;
+    }
+}
+/* put the css here */
+
+ .foot-container {
+    background: linear-gradient(90deg, rgba(117, 213, 252, 1) 5%, rgba(24, 71, 208, 1) 41%, rgba(15, 7, 144, 1) 100%);
+    color: #fff;
+    padding: 2rem 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.foot-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.foot-icons a {
+    color: #fff;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.foot-icons a:hover {
+    color: #64B5F6;
+    transform: scale(1.2);
+}
+
+.foot-policy .policy-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.foot-policy a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.foot-policy a:hover {
+    color: #64B5F6;
+}
+
+.foot_text {
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 0.rem;
+    margin-top: 1.5rem;
+    color: #e0e0e0;
+    margin-bottom: -1rem;
+}
+.foot-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}

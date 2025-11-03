@@ -1,0 +1,465 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgb(255, 255, 255);
+    padding: 0.5rem 0;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom navbar-toggler icon color */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(24,71,208, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* Logo styles */
+.navbar-brand img {
+    width: 140px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+/* Nav items */
+.navbar-nav {
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #1847d0 !important; /* Important to override Bootstrap */
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    font-size: 0.9em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #0e2c87 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #0e2c87;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Auth buttons */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-buttons .btn-primary {
+    padding: 8px 30px;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    background-image: linear-gradient(45deg, #1847d0, #0f0790);
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+    white-space: nowrap;
+    border: none;
+}
+
+.auth-buttons .btn-primary:hover {
+    border-top-right-radius: 30px;
+}
+
+.auth-buttons .nav-link {
+    font-size: 0.85rem;
+    color: #1847d0;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .auth-buttons .btn-primary,
+    .auth-buttons .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .navbar-brand {
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+.text-content {
+    position: relative;
+    z-index: 1;
+    animation: moveup 0.5s linear forwards;
+}
+.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    color: #fff;
+    background-image: linear-gradient(45deg, rgba(24, 71, 208, 1), rgba(15, 7, 144, 1));
+    font-size: 14px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    transition: 0.5s;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    border-top-right-radius: 30px;
+}
+
+.text-content .btn-primary {
+    padding: 15px 80px;
+    font-size: 15px;
+    animation-delay: 1s;
+}
+/* ===== Booking Form Styles ===== */
+.custom-container {
+    max-width: 900px;
+    margin-top: 90px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.custom-container h1 {
+    color: #1847D0;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.custom-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, #1847D0, #0f0790);
+    border-radius: 3px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #1847D0;
+    box-shadow: 0 0 0 0.25rem rgba(24, 71, 208, 0.15);
+}
+
+.readonly-field {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.input-group .btn-outline-secondary {
+    border-radius: 0 8px 8px 0;
+    border-left: 0;
+    transition: all 0.3s ease;
+}
+
+.input-group .btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #1847D0;
+}
+
+.bi-info-circle {
+    color: #1847D0;
+    margin-right: 0.3rem;
+}
+
+.text-muted small {
+    font-size: 0.85rem;
+}
+
+/* ===== Package Card Styles ===== */
+.package-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    border: 1px solid rgba(24, 71, 208, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.package-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1847D0;
+    margin-bottom: 1rem;
+}
+
+.package-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.feature-icon {
+    color: #1847D0;
+    font-size: 1.2rem;
+}
+
+/* ===== Equipment Form Styles ===== */
+.add-equipment-form {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #1847D0;
+}
+
+.equipment-form-row {
+    align-items: center;
+}
+
+.remove-equipment {
+    transition: all 0.3s ease;
+}
+
+.remove-equipment:hover {
+    background-color: #dc3545;
+    color: white !important;
+}
+
+#addMoreEquipment {
+    transition: all 0.3s ease;
+}
+
+#addMoreEquipment:hover {
+    background-color: #1847D0;
+    color: white;
+}
+
+/* ===== Recommendation Styles ===== */
+.recommendation {
+    background: #f0f7ff;
+    border-left: 4px solid #1847D0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.recommendation h4 {
+    color: #1847D0;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ===== Button Styles ===== */
+.btn-primary,
+.btn-secondary {
+    background: linear-gradient(45deg, #1847D0, #0f0790);
+    border: none;
+    margin-top: 2rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(24, 71, 208, 0.2);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(24, 71, 208, 0.3);
+}
+
+.btn-outline-primary {
+    color: #1847D0;
+    border-color: #1847D0;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #1847D0;
+    color: white;
+}
+
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .booking-container {
+        padding: 1.5rem;
+    }
+    
+    .package-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .add-equipment-form {
+        padding: 0.75rem;
+    }
+    
+    .equipment-form-col {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .booking-container h1 {
+        font-size: 1.75rem;
+    }
+    
+    .input-group .btn-outline-secondary {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+ .foot-container {
+    background: linear-gradient(90deg, rgba(117, 213, 252, 1) 5%, rgba(24, 71, 208, 1) 41%, rgba(15, 7, 144, 1) 100%);
+    color: #fff;
+    padding: 2rem 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.foot-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.foot-icons a {
+    color: #fff;
+    transition: color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.foot-icons a:hover {
+    color: #64B5F6;
+    transform: scale(1.2);
+}
+
+.foot-policy .policy-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.foot-policy a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.foot-policy a:hover {
+    color: #64B5F6;
+}
+
+.foot_text {
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 0.rem;
+    margin-top: 1.5rem;
+    color: #e0e0e0;
+    margin-bottom: -1rem;
+}
+.foot-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 1.5rem 0;
+}

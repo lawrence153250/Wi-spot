@@ -1,0 +1,172 @@
+CREATE TABLE admin (
+    adminId INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fullName VARCHAR(200) NOT NULL,
+    loginStatus BOOLEAN DEFAULT FALSE,
+    registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    userName VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE staff (
+    staffId INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fullName VARCHAR(200) NOT NULL,
+    position VARCHAR(100),
+    loginStatus BOOLEAN DEFAULT FALSE,
+    registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    adminId INT,
+    userName VARCHAR(100) UNIQUE,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL
+);
+
+CREATE TABLE customer (
+    customerId INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    contactNumber VARCHAR(20) NOT NULL,
+    address TEXT,
+    birthday DATE,
+    validId LONGBLOB,
+    profileImage LONGBLOB, 
+    proofOfBilling LONGBLOB,
+    idNumber VARCHAR(50) UNIQUE,
+    facebookProfile VARCHAR(255),
+    registerDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    userName VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE announcement (
+    announcementId INT AUTO_INCREMENT PRIMARY KEY,
+    adminId INT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL
+);
+
+-- Create the package table before inventory
+CREATE TABLE package (
+    packageId INT AUTO_INCREMENT PRIMARY KEY,
+    staffId INT,
+    packageName VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    equipmentsIncluded TEXT,
+    approvalStatus ENUM('pending', 'approved', 'declined') DEFAULT 'pending',
+    adminId INT,
+    approvalDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (staffId) REFERENCES staff(staffId) ON DELETE SET NULL,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL
+);
+
+-- Now create the inventory table
+CREATE TABLE inventory (
+    inventoryId INT AUTO_INCREMENT PRIMARY KEY,
+    adminId INT,
+    staffId INT,
+    packageId INT,
+    equipmentName VARCHAR(255) NOT NULL,
+    numberOfPackage INT NOT NULL,
+    numberOfEquipments INT NOT NULL,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL,
+    FOREIGN KEY (staffId) REFERENCES staff(staffId) ON DELETE SET NULL,
+    FOREIGN KEY (packageId) REFERENCES package(packageId) ON DELETE CASCADE
+);
+
+-- Create the voucher table before booking
+CREATE TABLE voucher (
+    voucherId INT AUTO_INCREMENT PRIMARY KEY,
+    staffId INT,
+    voucherName VARCHAR(255) NOT NULL,
+    description TEXT,
+    discountRate DECIMAL(5,2) NOT NULL CHECK (discountRate BETWEEN 0 AND 100),
+    approvalStatus ENUM('pending', 'approved', 'declined') DEFAULT 'pending',
+    adminId INT,
+    approvalDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (staffId) REFERENCES staff(staffId) ON DELETE SET NULL,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL
+);
+
+-- Create the booking_requirements table before booking
+CREATE TABLE booking_requirements (
+    bookingRegId INT AUTO_INCREMENT PRIMARY KEY,
+    customerId INT,
+    numberOfUsers INT NOT NULL,
+    eventType VARCHAR(255) NOT NULL,
+    expectedSpeed VARCHAR(50),
+    budgetRange VARCHAR(50),
+    duration VARCHAR(50),
+    FOREIGN KEY (customerId) REFERENCES customer(customerId) ON DELETE CASCADE
+);
+
+-- Now create the booking table
+CREATE TABLE booking (
+    bookingId INT AUTO_INCREMENT PRIMARY KEY,
+    customerId INT,
+    staffId INT,
+    packageId INT,
+    voucherId INT,
+    bookingRegId INT,
+    dateOfBooking DATE NOT NULL,
+    dateOfReturn DATE NOT NULL,
+    eventLocation VARCHAR(255),
+    lendingAgreement LONGBLOB,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    price DECIMAL(10,2) NOT NULL,
+    bookingStatus ENUM('Pending', 'Confirmed', 'Completed', 'Cancelled') DEFAULT 'Pending',
+    paymentStatus ENUM('Unpaid', 'Paid', 'Partially Paid', 'Refunded') DEFAULT 'Unpaid',
+    FOREIGN KEY (customerId) REFERENCES customer(customerId) ON DELETE CASCADE,
+    FOREIGN KEY (staffId) REFERENCES staff(staffId) ON DELETE SET NULL,
+    FOREIGN KEY (packageId) REFERENCES package(packageId) ON DELETE CASCADE,
+    FOREIGN KEY (voucherId) REFERENCES voucher(voucherId) ON DELETE SET NULL,
+    FOREIGN KEY (bookingRegId) REFERENCES booking_requirements(bookingRegId) ON DELETE CASCADE
+);
+
+CREATE TABLE feedback (
+    feedbackId INT AUTO_INCREMENT PRIMARY KEY,
+    customerId INT,
+    bookingId INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    sentiment VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    responseStatus ENUM('pending', 'responded') DEFAULT 'pending',
+    FOREIGN KEY (customerId) REFERENCES customer(customerId) ON DELETE CASCADE,
+    FOREIGN KEY (bookingId) REFERENCES booking(bookingId) ON DELETE CASCADE
+);
+
+CREATE TABLE reports (
+    reportId INT AUTO_INCREMENT PRIMARY KEY,
+    reportDate DATE NOT NULL,
+    monthlySales DECIMAL(10,2) NOT NULL,
+    packageId INT,
+    completedBookings INT NOT NULL,
+    sentimentAnalysisScore DECIMAL(5,2),
+    websiteVisitor INT NOT NULL,
+    adminId INT,
+    FOREIGN KEY (packageId) REFERENCES package(packageId) ON DELETE SET NULL,
+    FOREIGN KEY (adminId) REFERENCES admin(adminId) ON DELETE SET NULL
+);
+
+CREATE TABLE chatbot (
+    sessionId INT AUTO_INCREMENT PRIMARY KEY,
+    customerId INT,
+    queryType VARCHAR(255),
+    faqText TEXT,
+    responseText TEXT,
+    status ENUM('open', 'closed') DEFAULT 'open',
+    sentiment VARCHAR(50),
+    escalationFlag BOOLEAN DEFAULT FALSE,
+    feedbackRating INT CHECK (feedbackRating BETWEEN 1 AND 5),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customerId) REFERENCES customer(customerId) ON DELETE CASCADE
+);
+
+INSERT INTO package (packageId, packageName, price) VALUES
+(1, 'Package 1', 1000),
+(2, 'Package 2', 1500),
+(3, 'Package 3', 4000),
+(4, 'Package 4', 5000);

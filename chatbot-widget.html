@@ -1,0 +1,387 @@
+<!-- chatbot-widget.html -->
+<div id="chatbot-toggle" style="position:fixed; bottom:20px; right:20px; z-index:1000;">
+  <button style="background: linear-gradient(90deg, #256eff, #1c39bb, #162447); color:white; border:none; border-radius:50%; width:60px; height:60px; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; font-size:24px;">
+    <i class="fas fa-comment-alt"></i>
+  </button>
+</div>
+
+<div id="chatbot-container" style="display:none; position:fixed; bottom:80px; right:20px; width:350px; max-width:90vw; background:white; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.2); z-index:1000; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <div style="padding:15px; background:#1c39bb; color:rgb(255, 255, 255); border-top-left-radius:10px; border-top-right-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+    <h3 style="margin:0; font-size:1.1rem;">Support Assistant</h3>
+    <button id="chatbot-close" style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;">&times;</button>
+  </div>
+  
+  <!-- Quick Questions Menu -->
+  <div id="chatbot-quick-questions" style="padding:10px; border-bottom:1px solid #eee; display:none;">
+    <p style="margin-bottom:8px; font-size:0.9em; color:#666;">Common questions:</p>
+    <div style="display:flex; flex-wrap:wrap; gap:5px;">
+      <button class="quick-question" style="padding:5px 10px; background:#f0f0f0; border:none; border-radius:15px; font-size:0.8em; cursor:pointer;">How do I book an internet package?</button>
+      <button class="quick-question" style="padding:5px 10px; background:#f0f0f0; border:none; border-radius:15px; font-size:0.8em; cursor:pointer;">What payment methods are accepted?</button>
+      <button class="quick-question" style="padding:5px 10px; background:#f0f0f0; border:none; border-radius:15px; font-size:0.8em; cursor:pointer;">What areas do you cover?</button>
+      <button class="quick-question" style="padding:5px 10px; background:#f0f0f0; border:none; border-radius:15px; font-size:0.8em; cursor:pointer;">Can I cancel my booking?</button>
+      <button class="quick-question" style="padding:5px 10px; background:#f0f0f0; border:none; border-radius:15px; font-size:0.8em; cursor:pointer;">Is customer support available?</button>
+    </div>
+  </div>
+  
+  <div id="chatbot-messages" style="flex-grow:1; padding:15px; overflow-y:auto; max-height:300px; min-height:100px;"></div>
+  <div style="padding:10px; border-top:1px solid #eee; display:flex;">
+    <input type="text" id="chatbot-input" placeholder="Type your message..." style="flex-grow:1; padding:10px; border:1px solid #ddd; border-radius:20px; margin-right:10px; outline:none;">
+    <button id="chatbot-send" style="padding:10px 15px; background:#1c39bb; color:white; border:none; border-radius:20px; cursor:pointer;">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Include the API keys file -->
+<script src="api_keys.js"></script>
+<script>
+// Chatbot Configuration - API key now comes from external file
+const chatbotConfig = {
+  apiKey: API_KEYS.deepseek, // Reference from external file
+  referer: window.location.hostname,
+  siteName: 'Wi-Spot Services',  
+  model: 'deepseek/deepseek-r1:free',
+  websiteUrl: 'https://wispotservices.great-site.net/'
+};
+
+// FAQ Database - Add your own questions and answers here
+const faqDatabase = {
+  "bookingProcess": {
+    question: "How do I book an internet package for my event?",
+    answer: "You can book through our website by selecting a package, choosing your event dates, and providing your location. A confirmation will be sent once your payment is received."
+  },
+  "paymentMethods": {
+    question: "What payment methods are accepted?",
+    answer: "We accept secure payments via Xendit, which includes credit/debit cards, e-wallets, retail outlets, and bank transfers."
+  },
+  "coverageArea": {
+    question: "What areas do you cover?",
+    answer: "We provide coverage for both urban and rural events. You can use our interactive Map Coverage tool to check availability in your location."
+  },
+  "routerTypes": {
+    question: "What types of routers are available?",
+    answer: "We offer Basic, Pro, and Enterprise routers, each with different speed and coverage capabilities suited for various event sizes and requirements."
+  },
+  "cancellationPolicy": {
+    question: "Can I cancel or reschedule my booking?",
+    answer: "Yes. Cancellations or changes must be made at least 48 hours before your event. Fees may apply depending on your package terms."
+  },
+  "supportAvailability": {
+    question: "Is customer support available during my event?",
+    answer: "Yes. We provide on-call technical support throughout your booking. On-site assistance is available for Enterprise packages."
+  },
+  "voucherUse": {
+    question: "Can I use a voucher or discount code?",
+    answer: "Yes, you can apply a valid voucher code during the payment step of the booking process."
+  },
+  "feedbackSubmission": {
+    question: "How do I submit feedback after my event?",
+    answer: "After your event is completed, you'll receive an email link to submit feedback. You can rate various service aspects and upload images."
+  },
+  "equipmentRetrieval": {
+    question: "What happens to the equipment after the event?",
+    answer: "Our team will retrieve all installed equipment on the date specified. Please ensure access is available for our technicians."
+  },
+  "securityPolicy": {
+    question: "Is my payment information secure?",
+    answer: "Yes. All transactions are processed through Xendit's encrypted API, ensuring PCI-compliant and secure data handling."
+  }
+};
+
+// Website Knowledge Base - Describe your website/services here
+const websiteKnowledge = `
+Our website ${chatbotConfig.siteName} (${chatbotConfig.websiteUrl}) specializes in:
+- Satellite Internet Services for Indoor and Outdoor Events
+- Real-Time Booking and Reservation System
+- Network Coverage Visualization and Optimization
+
+Key features:
+- Feature 1: Interactive Map Coverage — Plan and visualize router coverage for your specific event location using Google Maps.
+- Feature 2: Flexible Booking System — Schedule satellite internet packages with customizable durations, bandwidth needs, event sizes, and number of users.
+- Feature 3: Secure Payment Integration — Make secure and convenient payments through Xendit, supporting cards, e-wallets, and bank transfers.
+
+Company values:
+- Value 1: Reliability — We ensure uninterrupted internet access for events of all sizes, in any location.
+- Value 2: Transparency — Clear pricing, terms, and package inclusions are provided at every booking step.
+- Value 3: Customer Focus — Dedicated support and personalized recommendations based on event type and area size.
+
+Main pages:
+- /about: About our company
+- /services: Booking and additional event services
+- /contact: Contact information and support channels
+- /mapcoverage: Interactive map-based coverage planning tool
+- /feedback: Post-event customer review and rating portal
+- /voucher: List out promos and existing vouchers customers can claim
+`;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize conversation history
+  let conversationHistory = JSON.parse(sessionStorage.getItem('chatbotHistory')) || [];
+  
+  // DOM Elements
+  const chatbotContainer = document.getElementById('chatbot-container');
+  const chatbotToggle = document.getElementById('chatbot-toggle');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotSend = document.getElementById('chatbot-send');
+  const quickQuestions = document.getElementById('chatbot-quick-questions');
+
+  // Re-render old conversation
+  if (conversationHistory.length > 0) {
+    conversationHistory.forEach(exchange => {
+      addUserMessage(exchange.user);
+      addBotMessage(exchange.bot);
+    });
+  }
+  
+  // Add welcome message
+  setTimeout(() => {
+    addBotMessage(`Hello! I'm the ${chatbotConfig.siteName} assistant. How can I help you today?`);
+    addBotMessage("You can ask me about our products, services, or use the quick questions above.");
+  }, 500);
+  
+  // Event listeners
+  chatbotToggle.addEventListener('click', toggleChatbot);
+  chatbotClose.addEventListener('click', toggleChatbot);
+  chatbotSend.addEventListener('click', sendMessage);
+  chatbotInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+
+  // ====== QUICK QUESTIONS FIXED IMPLEMENTATION ======
+  // Show quick questions when container is toggled
+  function toggleChatbot() {
+    if (chatbotContainer.style.display === 'none' || !chatbotContainer.style.display) {
+      chatbotContainer.style.display = 'block';
+      quickQuestions.style.display = 'block'; // Show questions when opening
+      chatbotInput.focus();
+    } else {
+      chatbotContainer.style.display = 'none';
+      quickQuestions.style.display = 'none'; // Hide questions when closing
+    }
+  }
+
+  // Add click handlers to quick questions
+  function setupQuickQuestions() {
+    const quickQuestionButtons = document.querySelectorAll('.quick-question');
+    quickQuestionButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const question = this.textContent;
+        chatbotInput.value = question;
+        sendMessage();
+      });
+    });
+  }
+
+  // Call this after the DOM is loaded
+  setupQuickQuestions();
+
+  // Modified focus/blur handlers
+  chatbotInput.addEventListener('focus', () => {
+    quickQuestions.style.display = 'block';
+  });
+
+  chatbotInput.addEventListener('blur', () => {
+    setTimeout(() => {
+      if (!document.querySelector('.quick-question:hover')) {
+        quickQuestions.style.display = 'none';
+      }
+    }, 300);
+  });
+  // ====== END OF QUICK QUESTIONS FIX ======
+  
+  function addMessage(role, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.style.marginBottom = '12px';
+    messageDiv.style.padding = '8px 12px';
+    messageDiv.style.borderRadius = '18px';
+    messageDiv.style.maxWidth = '80%';
+    messageDiv.style.wordWrap = 'break-word';
+    messageDiv.style.lineHeight = '1.4';
+    
+    if (role === 'user') {
+      messageDiv.style.background = '#e3f2fd';
+      messageDiv.style.marginLeft = 'auto';
+      messageDiv.style.borderBottomRightRadius = '4px';
+      messageDiv.textContent = content;
+    } else {
+      messageDiv.style.background = '#f1f1f1';
+      messageDiv.style.marginRight = 'auto';
+      messageDiv.style.borderBottomLeftRadius = '4px';
+      messageDiv.innerHTML = marked.parse(content);
+    }
+    
+    chatbotMessages.appendChild(messageDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+  
+  function addBotMessage(content) {
+    addMessage('bot', content);
+  }
+  
+  function addUserMessage(content) {
+    addMessage('user', content);
+  }
+  
+  function checkFAQ(userMessage) {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Check each FAQ entry for matches
+    for (const [key, faq] of Object.entries(faqDatabase)) {
+      const lowerQuestion = faq.question.toLowerCase();
+      
+      // Check if user message contains keywords from question
+      const questionWords = lowerQuestion.split(/\s+/);
+      const matches = questionWords.filter(word => 
+        word.length > 3 && lowerMessage.includes(word)
+      );
+      
+      // If at least 2 keywords match or exact match for short questions
+      if (matches.length >= 2 || lowerMessage.includes(lowerQuestion)) {
+        return faq.answer;
+      }
+    }
+    
+    // Direct keyword matches
+    if (lowerMessage.includes("book") || lowerMessage.includes("reserve") || lowerMessage.includes("package")) {
+      return faqDatabase.bookingProcess.answer;
+    }
+    if (lowerMessage.includes("pay") || lowerMessage.includes("payment") || lowerMessage.includes("credit card") || lowerMessage.includes("xendit")) {
+      return faqDatabase.paymentMethods.answer;
+    }
+    if (lowerMessage.includes("area") || lowerMessage.includes("cover") || lowerMessage.includes("location") || lowerMessage.includes("map")) {
+      return faqDatabase.coverageArea.answer;
+    }
+    if (lowerMessage.includes("router") || lowerMessage.includes("device") || lowerMessage.includes("equipment")) {
+      return faqDatabase.routerTypes.answer;
+    }
+    if (lowerMessage.includes("cancel") || lowerMessage.includes("reschedule") || lowerMessage.includes("change")) {
+      return faqDatabase.cancellationPolicy.answer;
+    }
+    if (lowerMessage.includes("support") || lowerMessage.includes("help") || lowerMessage.includes("assistance")) {
+      return faqDatabase.supportAvailability.answer;
+    }
+    if (lowerMessage.includes("voucher") || lowerMessage.includes("discount") || lowerMessage.includes("promo")) {
+      return faqDatabase.voucherUse.answer;
+    }
+    if (lowerMessage.includes("feedback") || lowerMessage.includes("review") || lowerMessage.includes("rating")) {
+      return faqDatabase.feedbackSubmission.answer;
+    }
+    if (lowerMessage.includes("retriev") || lowerMessage.includes("pick up") || lowerMessage.includes("collect")) {
+      return faqDatabase.equipmentRetrieval.answer;
+    }
+    if (lowerMessage.includes("secure") || lowerMessage.includes("security") || lowerMessage.includes("safe")) {
+      return faqDatabase.securityPolicy.answer;
+    }
+    
+    return null;
+  }
+  
+  async function sendMessage() {
+    const message = chatbotInput.value.trim();
+    if (!message) return;
+    
+    addUserMessage(message);
+    chatbotInput.value = '';
+    chatbotInput.disabled = true;
+    chatbotSend.disabled = true;
+    
+    // First check FAQs
+    const faqResponse = checkFAQ(message);
+    if (faqResponse) {
+      addBotMessage(faqResponse);
+      chatbotInput.disabled = false;
+      chatbotSend.disabled = false;
+      chatbotInput.focus();
+      return;
+    }
+    
+    // Show typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'typing-indicator';
+    typingIndicator.textContent = 'AI is typing...';
+    typingIndicator.style.color = '#666';
+    typingIndicator.style.fontStyle = 'italic';
+    typingIndicator.style.padding = '8px 0';
+    chatbotMessages.appendChild(typingIndicator);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    
+    try {
+      // Build messages array with conversation history
+      const messages = [];
+      
+      // Add system message with website knowledge
+      messages.push({
+        role: "system",
+        content: `You are a helpful assistant for ${chatbotConfig.siteName}. 
+        Website: ${chatbotConfig.websiteUrl}
+        Here's information about our website: ${websiteKnowledge}
+        Current page: ${window.location.pathname}`
+      });
+      
+      // Add conversation history if exists
+      if (conversationHistory.length > 0) {
+        conversationHistory.forEach(exchange => {
+          messages.push({ role: 'user', content: exchange.user });
+          messages.push({ role: 'assistant', content: exchange.bot });
+        });
+      }
+      
+      // Add current message
+      messages.push({ role: 'user', content: message });
+      
+      // Call DeepSeek API
+      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${chatbotConfig.apiKey}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: messages,
+            temperature: 0.7
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      const botReply = data.choices?.[0]?.message?.content || "Sorry, I couldn't process that.";
+      
+      // Add bot reply to chat
+      addBotMessage(botReply);
+      
+      // Update conversation history (keep last 3 exchanges)
+      conversationHistory.push({ user: message, bot: botReply });
+
+      // Optional: limit history to last 20 messages
+      if (conversationHistory.length > 20) {
+        conversationHistory.shift();
+      }
+
+      // Save to sessionStorage
+      sessionStorage.setItem('chatbotHistory', JSON.stringify(conversationHistory));
+      
+    } catch (error) {
+      console.error('Chatbot error:', error);
+      addBotMessage(`Sorry, I encountered an error. Please try again. (${error.message})`);
+    } finally {
+      // Remove typing indicator
+      const indicators = document.querySelectorAll('.typing-indicator');
+      indicators.forEach(indicator => indicator.remove());
+      
+      // Re-enable input
+      chatbotInput.disabled = false;
+      chatbotSend.disabled = false;
+      chatbotInput.focus();
+    }
+  }
+});
+</script>
